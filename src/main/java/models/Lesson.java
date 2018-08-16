@@ -13,18 +13,19 @@ public class Lesson {
     private int id;
     private String title;
     private int classroomNumber;
-    private List<Course> courses;
     private List<Student> students;
+    private Course course;
 
 
     public Lesson(){
 
     }
 
-    public Lesson(String title, int classroomNumber){
+    public Lesson(String title, int classroomNumber, Course course){
         this.title = title;
         this.classroomNumber = classroomNumber;
         students = new ArrayList<Student>();
+        this.course = course;
     }
 
     @Id
@@ -56,14 +57,16 @@ public class Lesson {
         this.classroomNumber = classroomNumber;
     }
 
-    @OneToMany(mappedBy="lesson", fetch = FetchType.LAZY)
-    public List<Course> getCourses() {
-        return courses;
+    @ManyToOne
+    @JoinColumn(name="course_id", nullable=false)
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCourse(Course course) {
+        this.course = course;
     }
+
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @ManyToMany
     @JoinTable(name = "students_lessons",
@@ -77,4 +80,9 @@ public class Lesson {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
+
+    public void addStudent(Student student){
+        this.students.add(student);
+    }
+
 }

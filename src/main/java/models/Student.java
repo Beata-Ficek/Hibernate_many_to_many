@@ -95,6 +95,10 @@ public class Student {
         this.lessons = lessons;
     }
 
+    public void addLesson(Lesson lesson){
+        this.lessons.add(lesson);
+    }
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id", nullable = false)
     public Mentor getMentor() {
